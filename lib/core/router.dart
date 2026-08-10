@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/authorization/login_screen.dart';
@@ -32,14 +31,13 @@ final GoRouter appRouter = GoRouter(
             title: const Text('Завантаження авто'),
             centerTitle: true,
           ),
-          drawer: _buildAppDrawer(context, userName),
+          endDrawer: _buildAppDrawer(context, userName),
           body: navigationShell,
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: navigationShell.currentIndex,
             onTap: (index) => navigationShell.goBranch(index),
             type: BottomNavigationBarType.fixed,
-            selectedItemColor:
-                Colors.blue, // Змінено на контрастний, щоб бачити виділення
+            selectedItemColor: Colors.blue, // Колір іконок нижньої навігації
             unselectedItemColor: Colors.grey,
             items: const [
               BottomNavigationBarItem(
