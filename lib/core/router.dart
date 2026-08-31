@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/authorization/login_screen.dart';
+import '../features/pages/main_screen.dart';
+
 // Імпортуйте ваші екрани вкладки
 // import '../features/pages/home_screen.dart';
 // import '../features/pages/clients_screen.dart';
@@ -30,15 +32,26 @@ final GoRouter appRouter = GoRouter(
           appBar: AppBar(
             title: const Text('Завантаження авто'),
             centerTitle: true,
+            backgroundColor: Color(0xFFFFFDE7),
+            elevation: 3,
+            shadowColor: Colors.black.withValues(alpha: 0.4),
+            surfaceTintColor: Colors.transparent,
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(1.0),
+              child: Container(color: Colors.grey.shade400, height: 1.0),
+            ),
           ),
           endDrawer: _buildAppDrawer(context, userName),
           body: navigationShell,
           bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Color(0xFF37474F),
+            elevation: 8,
             currentIndex: navigationShell.currentIndex,
             onTap: (index) => navigationShell.goBranch(index),
             type: BottomNavigationBarType.fixed,
             selectedItemColor: Colors.blue, // Колір іконок нижньої навігації
-            unselectedItemColor: Colors.grey,
+            unselectedItemColor:
+                Colors.grey.shade600, // Колір нижньої навігації
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.qr_code_scanner_outlined),
@@ -67,17 +80,7 @@ final GoRouter appRouter = GoRouter(
       branches: [
         StatefulShellBranch(
           routes: [
-            GoRoute(
-              path: '/main',
-              builder: (context, state) {
-                return const Scaffold(
-                  body: Center(
-                    child: Text('Екран: По хід сканування(в розробці)'),
-                  ),
-                );
-                //return HomeScreen(userName: userName);
-              },
-            ),
+            GoRoute(path: '/main', builder: (context, state) => MainScreen()),
           ],
         ),
         StatefulShellBranch(
@@ -117,6 +120,7 @@ final GoRouter appRouter = GoRouter(
 
 Widget _buildAppDrawer(BuildContext context, String userName) {
   return Drawer(
+    width: MediaQuery.of(context).size.width * 0.55,
     child: ListView(
       padding: EdgeInsets.zero,
       children: [
