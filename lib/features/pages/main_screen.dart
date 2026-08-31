@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../document_selection_form/document_list.dart';
+import '../document_selection_form/model_document_list.dart';
+
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
@@ -12,7 +15,7 @@ class MainScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // 1. Рядок пошуку
-          _buildSearchRow(),
+          _buildSearchRow(context),
           const SizedBox(height: 16),
           //блок по клієнту
           Row(
@@ -36,7 +39,7 @@ class MainScreen extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: Container(
-              padding: EdgeInsetsGeometry.symmetric(horizontal: 8, vertical: 4),
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 color: Colors.green.shade100,
                 borderRadius: BorderRadius.circular(12),
@@ -77,7 +80,7 @@ class MainScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSearchRow() {
+  Widget _buildSearchRow(BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -87,7 +90,7 @@ class MainScreen extends StatelessWidget {
               readOnly: true,
               controller: TextEditingController(text: '№00091601 ()'),
               decoration: InputDecoration(
-                contentPadding: const EdgeInsetsGeometry.symmetric(
+                contentPadding: const EdgeInsets.symmetric(
                   horizontal: 10,
                   vertical: 8,
                 ),
@@ -106,18 +109,29 @@ class MainScreen extends StatelessWidget {
           width: 40,
           height: 40,
           child: IconButton.filledTonal(
-            onPressed: () {},
+            onPressed: () async {
+              // Відкриваємо вікно на весь екран
+              final selectedDoc = await showDialog<DocumentItem>(
+                context: context,
+                builder: (dialogContext) => const DocumentSelectionDialog(),
+              );
+
+              if (selectedDoc != null) {
+                print('Обрано документ: ${selectedDoc.number}');
+              }
+            },
             icon: const Icon(Icons.search, size: 20),
             style: IconButton.styleFrom(
               backgroundColor: Colors.teal.shade100,
               foregroundColor: Colors.teal.shade900,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusGeometry.circular(6),
+                borderRadius: BorderRadius.circular(6),
               ),
               padding: EdgeInsets.zero,
             ),
           ),
         ),
+
         const SizedBox(width: 6),
         // Кнопка оновлення
         SizedBox(
@@ -130,7 +144,7 @@ class MainScreen extends StatelessWidget {
               backgroundColor: Colors.blue.shade100,
               foregroundColor: Colors.blue.shade900,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusGeometry.circular(6),
+                borderRadius: BorderRadius.circular(6),
               ),
               padding: EdgeInsets.zero,
             ),
